@@ -34,7 +34,7 @@ endif()
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
 	set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 	set(CMAKE_BUILD_TYPE "Release")
-	add_compile_options(-march=native -pipe -funroll-loops -fno-math-errno)
+	add_compile_options(-march=native -pipe)
 	add_link_options(-pipe)
 	define_use(DEBUG_ENABLED false)
 endif()
@@ -51,9 +51,8 @@ add_executable(
     ${SOURCES}
     main.cpp
 )
-target_include_directories(yolohw PUBLIC
-    "lib"
-)
+
+target_include_directories(yolohw PUBLIC "lib")
 
 target_link_libraries(yolohw PUBLIC ${OpenCV_LIBS})
 
