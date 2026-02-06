@@ -1,3 +1,10 @@
+# tmp files
+out
+bin
+compile_commands.json
+build
+.cache
+
 # Prerequisites
 *.d
 
