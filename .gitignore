@@ -3,6 +3,7 @@ out
 bin
 compile_commands.json
 build
+.build
 .cache
 
 # large files
@@ -43,6 +44,7 @@ samples
 *.lib
 
 # Executables
+yolohw
 *.exe
 *.out
 *.app
