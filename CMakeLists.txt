@@ -2,7 +2,13 @@ cmake_minimum_required(VERSION 3.21)
 project(yolohw)
 find_package( OpenCV REQUIRED )
 
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/externals/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE STRING "Vcpkg toolchain file")
+include(FetchContent)
+FetchContent_Declare(
+    tomlplusplus
+    GIT_REPOSITORY https://github.com/marzer/tomlplusplus.git
+    GIT_TAG        v3.4.0
+)
+FetchContent_MakeAvailable(tomlplusplus)
 
 function(define_use name defvalue)
 	if(${${name}})
@@ -54,5 +60,5 @@ add_executable(
 
 target_include_directories(yolohw PUBLIC "lib")
 
-target_link_libraries(yolohw PUBLIC ${OpenCV_LIBS})
+target_link_libraries(yolohw PUBLIC ${OpenCV_LIBS} tomlplusplus::tomlplusplus)
 
