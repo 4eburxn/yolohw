@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
 		cv::imshow("base_frame", frame);
 	}
 	DEBUG_SECTION
-	std::cout << "total frames: " << k << std::endl;
+	std::cerr << "total frames: " << k << std::endl;
 
 	return 0;
 }
