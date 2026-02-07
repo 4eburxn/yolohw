@@ -10,7 +10,7 @@ cmake .. -DCMAKE_BUILD_TYPE=Release && make -j3 || \
 cd ..
 ls yolohw &>/dev/null || ln -s .build/yolohw yolohw
 
-echo loading samples
-./tools/get_samples.sh || echo SAMPLES ARE NOT LOADED
+echo loading model and video
+./tools/load_env.sh
 
 echo $(pwd)/yolohw was build

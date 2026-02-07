@@ -8,6 +8,8 @@ build
 
 # large files
 samples
+*.onnx
+*.pt
 
 # Prerequisites
 *.d
