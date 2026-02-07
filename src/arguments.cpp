@@ -13,7 +13,7 @@ const cv::String params =
 int handle_arguments(int argc, char* argv[], cv::VideoCapture& cap) {
 	cv::CommandLineParser parser(argc, argv, params);
 	if (!parser.has("file")) {
-		std::cout << "something went wrong on argument parsing. "
+		std::cerr << "something went wrong on argument parsing. "
 					 "Usage:\n\t"
 				  << argv[0] << " -f=/path/to/file" << std::endl;
 		return 1;
