@@ -13,7 +13,7 @@ if [ "$?" -ne 0 ]; then
 	exit 1
 fi
 source .venv/bin/activate && \
-	pip install ultralytics onnx && \
+	pip install ultralytics && \
 	python3 tools/load_yolo.py
 if [ "$?" -ne 0 ]; then
     printf "${RED}CAN'T ACTIVATE VENV OR RUN PYTHON SCRIPT\n\tAborting.${NC}\n"
