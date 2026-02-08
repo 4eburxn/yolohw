@@ -10,11 +10,13 @@
 const cv::String params =
 	"{help h usage ? || print this message }"
 	"{config c       || path to config     }"
+	"{model m        || path to onnx midel }"
 	// "{video v        || device number      }"
 	// "{port p         || port of http srv   }"
 	"{file f         || path to video file }";
 
-int handle_arguments(int argc, char* argv[], cv::VideoCapture& cap) {
+int handle_arguments(int argc, char* argv[], cv::VideoCapture& cap,
+					 std::string& model_path) {
 	std::string path;
 
 	cv::CommandLineParser parser(argc, argv, params);
@@ -22,9 +24,13 @@ int handle_arguments(int argc, char* argv[], cv::VideoCapture& cap) {
 		parser.printMessage();
 		return -1;
 	}
-	if (parser.has("file")) {
+	if (parser.has("file") || parser.has("model")) {
+		if (!(parser.has("file") && parser.has("model"))) {
+			std::cerr << "you must provide file(-f) and model(-m)" << std::endl;
+			return 1;
+		}
 		path = parser.get<std::string>("file");
-		return 1;
+		model_path = parser.get<std::string>("model");
 	} else {
 		std::string cfgpath;
 		if (parser.has("config"))
@@ -34,7 +40,8 @@ int handle_arguments(int argc, char* argv[], cv::VideoCapture& cap) {
 
 		auto conf = toml::parse_file(cfgpath);
 		path = conf["path"].value_or("");
-		if (!path.length()) {
+		model_path = conf["model"].value_or("");
+		if (!(path.length() * model_path.length())) {
 			return 2;
 		}
 	}

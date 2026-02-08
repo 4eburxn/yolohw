@@ -1,2 +1,3 @@
 path="rtsp://localhost:8554/live"
+model="./yolov8n.onnx"
 
