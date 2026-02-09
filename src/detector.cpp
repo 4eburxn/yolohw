@@ -42,6 +42,7 @@ std::vector<std::pair<cv::Rect, float>> detector::get_detections(
 			boxes.emplace_back(
 				cv::Rect(left, top, static_cast<int>(w), static_cast<int>(h)));
 			confidences.emplace_back(static_cast<float>(row_ptr[4]));
+			DEBUG_SECTION
 			std::cout << h << " " << w << " " << row_ptr[4] << std::endl;
 		}
 	}
