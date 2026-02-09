@@ -6,7 +6,7 @@ cd .build
 make
 cd ..
 
-python tools/gst-rtsp-srv.py samples/vtest.avi &
+python3 tools/gst-rtsp-srv.py samples/vtest.avi &
 sleep 1 && ./yolohw | python3 ./tools/find_confidence.py
 exit $?
 
