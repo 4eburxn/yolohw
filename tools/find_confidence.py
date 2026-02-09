@@ -14,10 +14,10 @@ def main():
             area = height * width
             data.append((area, confidence))
         except ValueError:
-            print(f"Пропущена некорректная строка: {line}", file=sys.stderr)
+            print(f"skipped line: {line}", file=sys.stderr)
     
     if not data:
-        print("Нет данных для анализа.")
+        print("No data to analize.")
         return
     
     # Пороги уверенности
@@ -44,15 +44,15 @@ def main():
         results[threshold] = filtered_areas[index]
     
     # Вывод результатов
-    print("Минимальная площадь для покрытия 5% объектов с заданной уверенностью:")
+    print("min area to cover 5% objects with confidence:")
     print("-" * 60)
-    print(f"{'Порог':<15} {'Минимальная площадь':<20}")
+    print(f"{'threshold ':<15} {'Min area':<20}")
     print("-" * 60)
     
     for threshold in thresholds:
         area = results[threshold]
         if area is None:
-            print(f"{threshold:<15} {'Нет данных':<20}")
+            print(f"{threshold:<15} {'No data':<20}")
         else:
             print(f"{threshold:<15} {area:<20.2f}")
 
