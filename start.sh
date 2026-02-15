@@ -12,7 +12,7 @@ else
 	echo "Checking packages"
 	packages_to_install=()
 	REQQ="g++ cmake curl python3.10-venv"
-	for pkg in "$REQQ"; do
+	for pkg in $REQQ; do
 		status=$(dpkg-query -W -f='${db:Status-Status}' "$pkg" 2>/dev/null)
 		if [ "$status" != "installed" ]; then
 			packages_to_install+=("$pkg")
