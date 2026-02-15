@@ -18,7 +18,7 @@ else
 			packages_to_install+=("$pkg")
 		fi
 	done
-	if [ ${#array[@]} != "" ]; then
+	if [ ${packages_to_install[*]} != "" ]; then
 		echo "The following packages are not installed: ${packages_to_install[*]}"
 		read -p "Do you want to install them? (y/N) " ANS
 		
