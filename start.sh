@@ -4,12 +4,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 command -v cowsay &> /dev/null && cowsay -e 00 $USER has cowsay
 
 
-is_package_installed() {
-	local pkg=$1
-	status=$(dpkg-query -W -f='${db:Status-Status}' "$pkg" 2>/dev/null)
-	[ "$status" = "installed" ]
-}
-
 DISTRO=$(lsb_release -i -s)
 VERSION=$(lsb_release -r -s)
 if [ $DISTRO != "Ubuntu" ] && [ $VERSION != "22.04" ]; then
@@ -19,7 +13,7 @@ else
 	packages_to_install=()
 	REQQ="g++ cmake curl python3.10-venv"
 	for pkg in "$REQQ"; do
-		if ! is_package_installed "$pkg"; then
+		if ! dpkg -s "$pkg" &> /dev/null; then
 			packages_to_install+=("$pkg")
 		fi
 	done
