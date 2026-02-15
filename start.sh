@@ -38,8 +38,9 @@ fi
 
 ./tools/simpbuild.sh
 ls yolohw &>/dev/null || ln -s .build/yolohw yolohw
+build_status=$?
 
 echo loading model and video
 ./tools/load_env.sh
 
-echo $(pwd)/yolohw was build
+{ [ $build_status -eq 0 ] && echo $(pwd)/yolohw was build } || echo "something gone wrong!!! READ THE LOGS"
