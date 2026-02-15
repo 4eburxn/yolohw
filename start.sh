@@ -18,7 +18,7 @@ else
 			packages_to_install+=("$pkg")
 		fi
 	done
-	if [ ${#array[@]} -ne 0 ]; then
+	if [ ${#array[@]} != "" ]; then
 		echo "The following packages are not installed: ${packages_to_install[*]}"
 		read -p "Do you want to install them? (y/N) " ANS
 		
@@ -27,7 +27,6 @@ else
 				;;
 			*)
 				echo "Installation cancelled"
-				exit 0
 				;;
 		esac
 	else
