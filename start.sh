@@ -10,7 +10,9 @@ is_package_installed() {
 	[ "$status" = "installed" ]
 }
 
-if [ "$(lsb_release -sir)" != "Ubuntu 22.04" ]; then
+DISTRO=$(lsb_release -i -s)
+VERSION=$(lsb_release -r -s)
+if [ $DISTRO != "Ubuntu" ] && [ $VERSION != "22.04" ]; then
     echo "Current version of ubuntu is ont 22.04. Some things may broke. Skipping installation part. Is it endless?"
 else
 	echo "Checking packages"
