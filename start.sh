@@ -13,7 +13,8 @@ else
 	packages_to_install=()
 	REQQ="g++ cmake curl python3.10-venv"
 	for pkg in "$REQQ"; do
-		if ! dpkg -s "$pkg" &> /dev/null; then
+		status=$(dpkg-query -W -f='${db:Status-Status}' "$pkg" 2>/dev/null)
+		if [ "$status" != "installed" ]; then
 			packages_to_install+=("$pkg")
 		fi
 	done
