@@ -22,7 +22,7 @@ else
 		echo "The following packages are not installed: ${packages_to_install[*]}"
 		read -p "Do you want to install them? (y/N) " ANS
 		
-		case "$answer" in [yY]|[yY][eE][sS])
+		case "$ANS" in [yY]|[yY][eE][sS])
 				sudo apt update && sudo apt install "${packages_to_install[@]}"
 				;;
 			*)
