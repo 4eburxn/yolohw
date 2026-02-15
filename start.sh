@@ -18,17 +18,21 @@ else
 			packages_to_install+=("$pkg")
 		fi
 	done
-	echo "The following packages are not installed: ${packages_to_install[*]}"
-	read -p "Do you want to install them? (y/N) " ANS
-	
-	case "$answer" in [yY]|[yY][eE][sS])
-			sudo apt update && sudo apt install "${packages_to_install[@]}"
-			;;
-		*)
-			echo "Installation cancelled"
-			exit 0
-			;;
-	esac
+	if [ ${#array[@]} -ne 0 ]; then
+		echo "The following packages are not installed: ${packages_to_install[*]}"
+		read -p "Do you want to install them? (y/N) " ANS
+		
+		case "$answer" in [yY]|[yY][eE][sS])
+				sudo apt update && sudo apt install "${packages_to_install[@]}"
+				;;
+			*)
+				echo "Installation cancelled"
+				exit 0
+				;;
+		esac
+	else
+		echo "all packages already installed"
+	fi
 fi
 
 
