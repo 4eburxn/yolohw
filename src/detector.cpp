@@ -7,9 +7,15 @@
 
 std::vector<std::pair<cv::Rect, float>> detector::get_detections(
 	cv::Mat frame) {
+	float img_w = frame.cols;
+	float img_h = frame.rows;
+	float mxx = std::max(img_w, img_h);
+	cv::Mat canvas(mxx, mxx, CV_8UC3, cv::Scalar(114, 114, 114));
+	frame.copyTo(canvas(cv::Rect(0, 0, img_w, img_h)));
 	std::vector<std::pair<cv::Rect, float>> detections;
 	cv::Mat blob;
-	cv::dnn::blobFromImage(frame, blob, 1 / 255.0, cv::Size(640, 640),
+
+	cv::dnn::blobFromImage(canvas, blob, 1 / 255.0, cv::Size(640, 640),
 						   cv::Scalar(), true, false);
 
 	net_model.setInput(blob);
@@ -31,11 +37,11 @@ std::vector<std::pair<cv::Rect, float>> detector::get_detections(
 	for (int i = 0; i < rows; ++i) {
 		float* row_ptr = output.ptr<float>(i);
 
-		if (row_ptr[4] > 0.5) {
-			int x = row_ptr[0] * frame.size[1] / 640;
-			int y = row_ptr[1] * frame.size[0] / 640;
-			int w = row_ptr[2] * frame.size[1] / 640;
-			int h = row_ptr[3] * frame.size[0] / 640;
+		if (row_ptr[4] > 0.5 || row_ptr[6] > 0.5) {
+			int x = row_ptr[0] * mxx / 640;
+			int y = row_ptr[1] * mxx / 640;
+			int w = row_ptr[2] * mxx / 640;
+			int h = row_ptr[3] * mxx / 640;
 
 			int left = static_cast<int>(x - w / 2);
 			int top = static_cast<int>(y - h / 2);
