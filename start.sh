@@ -1,13 +1,34 @@
 #!/bin/bash
 
+RED='\033[0;31m'
+NC='\033[0m'
+
 cd "$(dirname "${BASH_SOURCE[0]}")"
 command -v cowsay &> /dev/null && cowsay -e 00 $USER has cowsay
 
+ERROR(){
+    printf "${RED}$1${NC}\n"
+	for arg in "${@:2}"; do
+		printf "\t${RED}$arg${NC}\n"
+	done
+}
+
+if [[ -d "$1" ]] && [[ ! -z $1 ]] || [[ -f ./.opencvdirname ]]; then
+    echo "opencv dir provided"
+	if [[ ! -z $1 ]]; then
+		echo -DCMAKE_PREFIX_PATH=$1 > ./.opencvdirname
+	fi
+else 
+    ERROR "OPENCV DIR IS NOT PROVIDED" "OR PREFIX IS WRONG!"\
+		"example ./start.sh ~/opencv4.13.0"
+fi
 
 DISTRO=$(lsb_release -i -s)
 VERSION=$(lsb_release -r -s)
 if [ $DISTRO != "Ubuntu" ] && [ $VERSION != "22.04" ]; then
-    echo "Current version of ubuntu is ont 22.04. Some things may broke. Skipping installation part. Is it endless?"
+	ERROR "Current version of ubuntu is not 22.04." \
+		"Some things may broke. Skipping installation part." \
+		"Is it endless?$"
 else
 	echo "Checking packages"
 	packages_to_install=()
@@ -43,4 +64,4 @@ build_status=$?
 echo loading model and video
 ./tools/load_env.sh
 
-{ [ $build_status -eq 0 ] && echo $(pwd)/yolohw was build } || echo "something gone wrong!!! READ THE LOGS"
+[ $build_status -eq 0 ] && echo "$(pwd)/yolohw was build" || ERROR "something gone wrong while building binary!!!" "READ THE LOGS OR BUILD BY YOURSELF"

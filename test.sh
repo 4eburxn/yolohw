@@ -2,10 +2,7 @@
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-cd .build
-cmake .. -DDEBUG_ENABLED=1 
-make -j4
-cd ..
+./tools/simpbuild.sh -DDEBUG_ENABLED=1 $(cat ./.opencvdirname)
 
 # python3 tools/gst-rtsp-srv.py samples/vtest.avi &
 sleep 1 && ./yolohw -f=./samples/vtest.avi -m=./yolov8n.onnx | python3 ./tools/find_confidence.py && \
@@ -13,7 +10,8 @@ sleep 1 && ./yolohw -f=./samples/vtest.avi -m=./yolov8n.onnx | python3 ./tools/f
 
 EXIT=$?
 echo rebuilding
-./tools/simpbuild.sh &>/dev/null
+
+./tools/simpbuild.sh -DDEBUG_ENABLED=0 $(cat ./.opencvdirname) &>/dev/null
 echo rebuilding complite
 
 exit $EXIT

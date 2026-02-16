@@ -6,6 +6,7 @@ build
 .build
 .cache
 runs
+.opencvdirname
 
 # large files
 samples
