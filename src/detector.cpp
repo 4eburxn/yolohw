@@ -39,8 +39,8 @@ std::vector<detector::box> detector::get_detections(cv::Mat frame) {
 		float* row_ptr = output.ptr<float>(i);
 
 		auto max_class = std::max_element(row_ptr + 4, row_ptr + 84);
-		if (*max_class > 0.1) {
-			if (max_class - row_ptr == 4) continue;
+		if (*max_class > 0.3) {
+			if (max_class - row_ptr == 4 && *max_class < 0.5) continue;
 			int x = row_ptr[0] * mxx / 640;
 			int y = row_ptr[1] * mxx / 640;
 			int w = row_ptr[2] * mxx / 640;
@@ -48,9 +48,8 @@ std::vector<detector::box> detector::get_detections(cv::Mat frame) {
 
 			int left = static_cast<int>(x - w / 2);
 			int top = static_cast<int>(y - h / 2);
-			boxes.emplace_back(
-				cv::Rect(left, top, static_cast<int>(w), static_cast<int>(h)));
-			confidences.emplace_back(std::max(row_ptr[4], row_ptr[6]));
+			boxes.emplace_back(cv::Rect(left, top, w, h));
+			confidences.emplace_back(*max_class);
 			classes.emplace_back(max_class - row_ptr - 4);
 			DEBUG_SECTION
 			std::cout << h << " " << w << " "
