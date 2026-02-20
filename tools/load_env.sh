@@ -14,7 +14,8 @@ if [ "$?" -ne 0 ]; then
 fi
 source .venv/bin/activate && \
 	pip install ultralytics && \
-	yolo export model=yolov8n.pt format=onnx
+	yolo export model=yolov8n.pt format=onnx && \
+	yolo export model=yolov8s.pt format=onnx
 if [ "$?" -ne 0 ]; then
     printf "${RED}CAN'T ACTIVATE VENV OR RUN PYTHON SCRIPT\n\tAborting.${NC}\n"
 	exit 1

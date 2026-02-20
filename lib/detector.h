@@ -12,15 +12,21 @@ class detector {
    private:
 	cv::dnn::Net net_model;
 	const int person_id = 0;
+	class box {
+	   public:
+		cv::Rect first;
+		float second;
+		int clss;
+	};
 
    public:
 	detector(cv::dnn::Net model_) : net_model(model_) {
-		net_model.setPreferableBackend(cv::dnn::DNN_BACKEND_OPENCV);
-		net_model.setPreferableTarget(cv::dnn::DNN_TARGET_CPU);
+		// net_model.setPreferableBackend(cv::dnn::DNN_BACKEND_OPENCV);
+		// net_model.setPreferableTarget(cv::dnn::DNN_TARGET_CPU);
 		DEBUG_SECTION
 		std::cerr << "detector created" << std::endl;
 	};
-	std::vector<std::pair<cv::Rect, float>> get_detections(cv::Mat frame);
+	std::vector<box> get_detections(cv::Mat frame);
 };
 
 #endif	// !__DETECTOR_H__

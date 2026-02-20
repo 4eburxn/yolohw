@@ -47,6 +47,9 @@ int main(int argc, char* argv[]) {
 		for (auto& i : detections) {
 			auto color = cbc(i.second);
 			cv::rectangle(frame, i.first, color);
+			snprintf(buffer, sizeof(buffer), "class:%2d", i.clss);
+			cv::putText(frame, buffer, cv::Point(i.first.x, i.first.y),
+						cv::FONT_HERSHEY_COMPLEX, 0.5, color);
 
 			snprintf(buffer, sizeof(buffer), "x:%4d y:%4d cfdnce:%.2f",
 					 i.first.x, i.first.y, i.second);
