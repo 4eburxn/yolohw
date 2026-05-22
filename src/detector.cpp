@@ -6,6 +6,8 @@
 #include "detector.h"
 #include "use.h"
 
+const int IMSIZE = 1280;
+
 std::vector<detector::box> detector::get_detections(cv::Mat frame) {
 	float img_w = frame.cols;
 	float img_h = frame.rows;
@@ -15,7 +17,7 @@ std::vector<detector::box> detector::get_detections(cv::Mat frame) {
 	std::vector<box> detections;
 	cv::Mat blob;
 
-	cv::dnn::blobFromImage(canvas, blob, 1 / 255.0, cv::Size(640, 640),
+	cv::dnn::blobFromImage(canvas, blob, 1 / 255.0, cv::Size(IMSIZE, IMSIZE),
 						   cv::Scalar(), true, false);
 
 	net_model.setInput(blob);
@@ -38,13 +40,13 @@ std::vector<detector::box> detector::get_detections(cv::Mat frame) {
 	for (int i = 0; i < rows; ++i) {
 		float* row_ptr = output.ptr<float>(i);
 
-		auto max_class = std::max_element(row_ptr + 4, row_ptr + 84);
+		auto max_class = std::max_element(row_ptr + 4, row_ptr + 5);
 		if (*max_class > 0.3) {
 			if (max_class - row_ptr == 4 && *max_class < 0.5) continue;
-			int x = row_ptr[0] * mxx / 640;
-			int y = row_ptr[1] * mxx / 640;
-			int w = row_ptr[2] * mxx / 640;
-			int h = row_ptr[3] * mxx / 640;
+			int x = row_ptr[0] * mxx / IMSIZE;
+			int y = row_ptr[1] * mxx / IMSIZE;
+			int w = row_ptr[2] * mxx / IMSIZE;
+			int h = row_ptr[3] * mxx / IMSIZE;
 
 			int left = static_cast<int>(x - w / 2);
 			int top = static_cast<int>(y - h / 2);

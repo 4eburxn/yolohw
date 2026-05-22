@@ -8,6 +8,7 @@ build
 runs
 .opencvdirname
 
+*.avi
 # large files
 samples
 *.onnx
